@@ -23,11 +23,13 @@ Metafiller is a powerful SEO tool for automated meta field generation. It simpli
 2. Install dependencies: composer install
 3. Build or deploy as needed.
 
-
-
-
 ## Usage
 After activation, navigate to the plugin's settings page to configure the meta field generation rules and OpenAI integration.
+> **⚠ Caution**
+> - Merging meta titles and descriptions between plugins is irreversible and may result in the loss of previously introduced data.
+> - Using AI generation can overwrite existing data.
+> - Use this plugin **only on development environments** and never on production unless you fully understand the impact.
+
 
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull request.
