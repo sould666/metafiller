@@ -31,6 +31,7 @@ After activation, navigate to the plugin's settings page to configure the meta f
 > - Use this plugin **only on development environments** and never on production unless you fully understand the impact.
 
 
+
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and submit a pull request.
 
