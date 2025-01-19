@@ -10,7 +10,9 @@ class OpenAiHandler {
     public function __construct() {
         $api_key = get_option('metafiller_openai_api_key');
         if (empty($api_key)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Exception messages are not directly output.
             throw new \Exception(__('OpenAI API key is not set. Please configure it in the settings.', 'metafiller'));
+
         }
 
         // Create an OpenAI client using the correct initialization method
@@ -53,7 +55,7 @@ class OpenAiHandler {
 
             return $this->ensureSentenceCompletion($meta_title);
         } catch (\Exception $e) {
-            error_log('Error generating meta title: ' . $e->getMessage());
+//            error_log('Error generating meta title: ' . $e->getMessage());
             throw $e;
         }
     }

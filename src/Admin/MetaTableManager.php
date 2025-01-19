@@ -10,12 +10,23 @@ class MetaTableManager {
      * Render the meta data table with filters, pagination, and bulk actions.
      */
     public static function renderDetailedTable() {
-        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
 
-        // Fetch filter values from the request
-        $selected_plugin = $_GET['plugin'] ?? 'all';
-        $selected_type = $_GET['type'] ?? 'all';
-        $search_query = $_GET['s'] ?? '';
+        // Handle the pagination parameter securely
+        $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
+        $current_page = max(1, $paged);
+
+        // Fetch filter values securely
+        $selected_plugin = isset($_GET['plugin']) ? sanitize_text_field(wp_unslash($_GET['plugin'])) : 'all';
+        $selected_type = isset($_GET['type']) ? sanitize_text_field(wp_unslash($_GET['type'])) : 'all';
+        $search_query = isset($_GET['s']) ? sanitize_text_field(wp_unslash($_GET['s'])) : '';
+
+        // If the form is submitted, validate the nonce
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce is securely handled by wp_verify_nonce().
+            if (!isset($_POST['metafiller_nonce']) || !wp_verify_nonce(wp_unslash($_POST['metafiller_nonce']), 'metafiller_bulk_action')) {
+                wp_die(esc_html__('Unauthorized request. Nonce verification failed.', 'metafiller'));
+            }
+        }
 
         // Get filtered data
         $filtered_data = self::getFilteredData($selected_plugin, $selected_type, $search_query);
@@ -27,7 +38,6 @@ class MetaTableManager {
         // Render the filter form
         self::renderFilters($selected_plugin, $selected_type, $search_query);
 
-        // Render the table
         // Display Meta Completion Percentage
         $completion_class = '';
         $completion_percentage = self::calculateMetaCompletion($filtered_data);
@@ -43,11 +53,13 @@ class MetaTableManager {
 
         echo '<p>';
         echo '<span class="meta-label">' . esc_html(__('Meta Completion:', 'metafiller')) . '</span> ';
-        echo '<span class="meta-value ' . esc_attr($completion_class) . '">' . esc_html(sprintf(__('%s%%', 'metafiller'), $completion_percentage)) . '</span>';
+        // Translators: %s is the completion percentage.
+        echo '<span class="meta-value ' . esc_attr($completion_class) . '">' . esc_html(sprintf(__(' %s%%', 'metafiller'), $completion_percentage)) . '</span>';
         echo '</p>';
-        echo '<form method="post" id="meta-table-form">';
-        wp_nonce_field('metafiller_bulk_action', 'metafiller_nonce');
 
+        // Render the table and form
+        echo '<form method="post" id="meta-table-form">';
+        wp_nonce_field('metafiller_bulk_action', 'metafiller_nonce'); // Add nonce field for form
         echo '<table class="widefat fixed striped">';
         echo '<thead>';
         echo '<tr>';
@@ -93,25 +105,12 @@ class MetaTableManager {
         echo '</tbody>';
         echo '</table>';
 
-        // Pagination
+        // Render pagination
         self::renderPagination($total_items, $current_page);
-
-        // Bulk action buttons
-        echo '<div class="bulk-actions">';
-        echo '<select name="bulk_action">';
-        echo '<option value="">' . esc_html__('Bulk Actions', 'metafiller') . '</option>';
-        echo '<option value="delete">' . esc_html__('Delete', 'metafiller') . '</option>';
-        echo '<option value="update">' . esc_html__('Update Meta', 'metafiller') . '</option>';
-        echo '</select>';
-        echo '<button type="submit" class="button button-primary">' . esc_html__('Apply', 'metafiller') . '</button>';
-        echo '</div>';
 
         echo '</form>';
     }
 
-    /**
-     * Render pagination controls.
-     */
     private static function renderPagination($total_items, $current_page) {
         $total_pages = ceil($total_items / self::ITEMS_PER_PAGE);
 
@@ -120,17 +119,19 @@ class MetaTableManager {
         }
 
         $base_url = remove_query_arg('paged');
+
         echo '<div class="tablenav-pages">';
-        echo paginate_links([
+        echo wp_kses_post(paginate_links([
             'base'      => add_query_arg('paged', '%#%', $base_url),
             'format'    => '?paged=%#%',
             'current'   => $current_page,
             'total'     => $total_pages,
             'prev_text' => '« Previous',
             'next_text' => 'Next »',
-        ]);
+        ]));
         echo '</div>';
     }
+
 
     /**
      * Calculate the percentage of filled meta titles and descriptions.
@@ -213,10 +214,12 @@ class MetaTableManager {
      * Process bulk actions: delete or update metadata. Relevant for now
      */
     public static function processBulkActions() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('metafiller_bulk_action', 'metafiller_nonce')) {
-            $action = $_POST['bulk_action'] ?? '';
-            $selected_ids = $_POST['selected'] ?? [];
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('metafiller_bulk_action', 'metafiller_nonce')) {
+            // Sanitize and process bulk action
+            $action = isset($_POST['bulk_action']) ? sanitize_text_field(wp_unslash($_POST['bulk_action'])) : '';
+            $selected_ids = isset($_POST['selected']) ? array_map('intval', wp_unslash($_POST['selected'])) : [];
 
+            // Exit early if action or selected IDs are empty
             if (empty($action) || empty($selected_ids)) {
                 return;
             }
@@ -231,4 +234,5 @@ class MetaTableManager {
             }
         }
     }
+
 }

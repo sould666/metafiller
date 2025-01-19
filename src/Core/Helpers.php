@@ -21,9 +21,15 @@ class Helpers {
      * @param string $meta_key Meta key to check.
      * @return int Number of posts with populated meta fields.
      */
+
+    /**
+     * For further developement, changing way plugin gets meta fields for more efficient and faster.
+     */
     public static function countPopulatedMeta($post_type, $meta_key) {
+
         $query_args = [
             'post_type'      => $post_type,
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- This query is intentional and executed only once during plugin initialization.
             'meta_key'       => $meta_key,
             'meta_compare'   => 'EXISTS',
             'posts_per_page' => -1,

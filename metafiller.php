@@ -1,10 +1,12 @@
 <?php
 /*
-Plugin Name: Metafiller
+Plugin Name: MetaFiller
 Description: A plugin to generate and populate SEO meta fields using AI.
 Version: 1.0
 Author: Sould
 Text Domain: metafiller
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 namespace Metafiller;

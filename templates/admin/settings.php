@@ -60,14 +60,15 @@
 </div>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
+// Validate and process the form submission
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
     check_admin_referer('metafiller_settings', 'metafiller_nonce');
 
     // Sanitize and save settings
-    $api_key = sanitize_text_field($_POST['openai_api_key']);
+    $api_key = isset($_POST['openai_api_key']) ? sanitize_text_field(wp_unslash($_POST['openai_api_key'])) : '';
     $agreement = isset($_POST['agreement']) ? 1 : 0;
-    $language = sanitize_text_field($_POST['metafiller_language']);
-    $repopulate = sanitize_text_field($_POST['metafiller_repopulate']);
+    $language = isset($_POST['metafiller_language']) ? sanitize_text_field(wp_unslash($_POST['metafiller_language'])) : '';
+    $repopulate = isset($_POST['metafiller_repopulate']) ? sanitize_text_field(wp_unslash($_POST['metafiller_repopulate'])) : '';
 
     update_option('metafiller_openai_api_key', $api_key);
     update_option('metafiller_agreement', $agreement);

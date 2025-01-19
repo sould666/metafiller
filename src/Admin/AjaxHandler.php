@@ -17,9 +17,15 @@ class AjaxHandler {
     public function saveMetaField() {
         check_ajax_referer('metafiller_save_meta_field', 'nonce');
 
-        $post_id = intval($_POST['post_id']);
-        $field = sanitize_text_field($_POST['field']);
-        $value = sanitize_textarea_field($_POST['value']); // Using textarea sanitization for long strings
+        // Validate and sanitize inputs
+        $post_id = isset($_POST['post_id']) ? intval(wp_unslash($_POST['post_id'])) : 0;
+        $field = isset($_POST['field']) ? sanitize_text_field(wp_unslash($_POST['field'])) : '';
+        $value = isset($_POST['value']) ? sanitize_textarea_field(wp_unslash($_POST['value'])) : ''; // Using textarea sanitization for long strings
+
+        // Check if required inputs are valid
+        if (empty($post_id) || empty($field) || empty($value)) {
+            wp_send_json_error(['message' => 'Missing or invalid input.']);
+        }
 
         $success = false;
 
@@ -56,6 +62,7 @@ class AjaxHandler {
             wp_send_json_error(['message' => 'Failed to update meta field.']);
         }
     }
+
 
     private function updateMeta($post_id, $meta_key, $value) {
         $updated = update_post_meta($post_id, $meta_key, $value);
@@ -231,7 +238,8 @@ class AjaxHandler {
             }
 
             wp_send_json_success([
-                'message' => __("Metadata generation complete. Processed $processed_count items.", 'metafiller'),
+                // Translators: %d is the number of items processed.
+                'message' => sprintf(__('Metadata generation complete. Processed %d items.', 'metafiller'), $processed_count),
             ]);
         } catch (\Exception $e) {
             wp_send_json_error([

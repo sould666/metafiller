@@ -10,13 +10,17 @@ class Dashboard
     {
         // Handle form submissions
         if (isset($_POST['metafiller_run_check'])) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
+            if (!isset($_POST['metafiller_nonce']) || !wp_verify_nonce(wp_unslash($_POST['metafiller_nonce']), 'metafiller_action')) {
+                wp_die(esc_html__('Unauthorized request. Nonce verification failed.', 'metafiller'));
+            }
             self::performCheck();
         }
 
         self::handleActions();
 
         // Detect the current tab
-        $current_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'dashboard';
+        $current_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : 'dashboard';
 
         // Render navigation tabs
         self::renderTabs($current_tab);
@@ -55,7 +59,8 @@ class Dashboard
 
     public static function performCheck()
     {
-        if (!isset($_POST['metafiller_nonce']) || !wp_verify_nonce($_POST['metafiller_nonce'], 'metafiller_seo_check')) {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
+        if (!isset($_POST['metafiller_nonce']) || !wp_verify_nonce(wp_unslash($_POST['metafiller_nonce']), 'metafiller_seo_check')) {
             wp_die('Security check failed.');
         }
 
@@ -102,9 +107,10 @@ class Dashboard
 
     private static function handleActions()
     {
-        if (isset($_POST['metafiller_nonce']) && wp_verify_nonce($_POST['metafiller_nonce'], 'metafiller_meta_actions')) {
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
+        if (isset($_POST['metafiller_nonce']) && wp_verify_nonce(wp_unslash($_POST['metafiller_nonce']), 'metafiller_meta_actions')) {
             if (isset($_POST['metafiller_merge_meta'])) {
-                $target_plugin = sanitize_text_field($_POST['metafiller_target_plugin']);
+                $target_plugin = isset($_POST['metafiller_target_plugin']) ? sanitize_text_field(wp_unslash($_POST['metafiller_target_plugin'])) : '';
 //                error_log('Selected target plugin: ' . $target_plugin);
 
                 if (empty($target_plugin)) {
