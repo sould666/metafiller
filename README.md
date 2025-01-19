@@ -13,10 +13,18 @@ Metafiller is a powerful SEO tool for automated meta field generation. It simpli
 - WordPress 5.0 or higher.
 
 ## Installation
-1. Download the `metafiller.zip` file.
+1. Download the `metafiller.zip` file from metafiller.tillgreen.eu/metafiller.zip
 2. In your WordPress admin panel, navigate to **Plugins > Add New**.
 3. Click the **Upload Plugin** button, and select the downloaded ZIP file.
 4. Install and activate the plugin.
+
+## Development
+1. Clone the repository: git clone https://github.com/sould666/metafiller.git
+2. Install dependencies: composer install
+3. Build or deploy as needed.
+
+
+
 
 ## Usage
 After activation, navigate to the plugin's settings page to configure the meta field generation rules and OpenAI integration.
