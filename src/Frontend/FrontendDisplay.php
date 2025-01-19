@@ -5,4 +5,3 @@
 namespace Metafiller\Frontend;
 
 // Class definition here.
-

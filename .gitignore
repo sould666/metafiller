@@ -1,5 +1,7 @@
 /metafiller-release/
 /metafiller.zip
 /vendor/
+/.idea/
+*.iml
 *.log
 *.tmp

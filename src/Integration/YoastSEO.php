@@ -5,4 +5,3 @@
 namespace Metafiller\Integration;
 
 // Class definition here.
-

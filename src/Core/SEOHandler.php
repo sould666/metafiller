@@ -5,4 +5,3 @@
 namespace Metafiller\Core;
 
 // Class definition here.
-
