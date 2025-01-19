@@ -1,0 +1,33 @@
+{
+    "name": "sould/metafiller",
+    "description": "An SEO tool for automated meta field generation.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Sould",
+            "email": "mangielczyk@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "openai-php/client": "^0.10.3",
+        "symfony/http-client": "^6.4",
+        "nyholm/psr7": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Metafiller\\": "src/"
+        }
+    },
+    "extra": {
+        "wordpress-plugin": true
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

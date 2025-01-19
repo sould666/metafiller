@@ -1,0 +1,5 @@
+/metafiller-release/
+/metafiller.zip
+/vendor/
+*.log
+*.tmp

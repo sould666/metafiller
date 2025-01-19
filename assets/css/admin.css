@@ -1,0 +1,334 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+/* Modal Content */
+.modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+    border: 10px solid;
+    border-radius: 5px;
+    border-color: #FF5733;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.seo-plugin-ul{
+    display:flex;
+    flex-direction:row;
+}
+
+.seo-plugin{
+    margin: 5px 10px;
+    border: 2px solid blue;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.seo-plugin[data-active="false"]{
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+
+    border-radius: 5px;
+
+}
+
+.run-seo-check-button{
+    margin-top:10px;
+    padding: 10px 5px;
+    color: white;
+    background-color:#2271b1;
+    font-weight: 600;
+    border: 0;
+    border-radius: 5px;
+
+}
+
+/*!* General Table Styling *!*/
+/*.widefat.fixed.striped {*/
+/*    border-collapse: collapse;*/
+/*    width: 100%;*/
+/*    margin: 10px 0;*/
+/*    font-size: 13px;*/
+/*    text-align: left;*/
+/*    background: #ffffff;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 4px;*/
+/*    overflow: hidden;*/
+/*    table-layout: auto; !* Allow columns to adjust dynamically *!*/
+/*}*/
+
+/*.widefat.fixed.striped thead th {*/
+/*    background-color: #007cba; !* WordPress Blue *!*/
+/*    color: #ffffff;*/
+/*    font-weight: bold;*/
+/*    padding: 8px 10px;*/
+/*    border: none;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.widefat.fixed.striped tbody tr:nth-child(even) {*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*.widefat.fixed.striped tbody tr:hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
+
+/*.widefat.fixed.striped tbody td {*/
+/*    padding: 6px 8px;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*    word-wrap: break-word;*/
+/*    overflow: hidden;*/
+/*    text-overflow: ellipsis; !* Ellipsis for long content *!*/
+/*    white-space: nowrap; !* Prevent wrapping unless necessary *!*/
+/*}*/
+
+/*!* Dynamic Column Widths *!*/
+/*.widefat.fixed.striped tbody td:first-child, !* Checkbox Column *!*/
+/*.widefat.fixed.striped thead th:first-child {*/
+/*    width: 3%; !* Narrow for checkboxes *!*/
+/*    text-align: center;*/
+/*}*/
+
+/*.widefat.fixed.striped tbody td.id-column, !* ID Column *!*/
+/*.widefat.fixed.striped thead th.id-column {*/
+/*    width: 5%; !* Small fixed width for IDs *!*/
+/*    text-align: center;*/
+/*}*/
+
+/*.widefat.fixed.striped tbody td.type-column, !* Type Column *!*/
+/*.widefat.fixed.striped thead th.type-column {*/
+/*    width: 8%; !* Slightly wider for post/term type *!*/
+/*}*/
+
+/*.widefat.fixed.striped tbody td.name-column, !* Name Column *!*/
+/*.widefat.fixed.striped thead th.name-column {*/
+/*    width: 20%; !* Wider for names *!*/
+/*}*/
+
+/*.widefat.fixed.striped tbody td.meta-column, !* Meta Fields *!*/
+/*.widefat.fixed.striped thead th.meta-column {*/
+/*    width: 15%; !* Moderate width for meta fields *!*/
+/*}*/
+
+/* Form and Filter Styling */
+/*form#meta-table-form {*/
+/*    margin-top: 10px;*/
+/*}*/
+
+/*form#meta-table-form .bulk-actions {*/
+/*    margin-top: 8px;*/
+/*    display: flex;*/
+/*    gap: 8px;*/
+/*    align-items: center;*/
+/*}*/
+
+/*form#meta-table-form .bulk-actions select {*/
+/*    padding: 5px 8px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/*form#meta-table-form .bulk-actions button {*/
+/*    padding: 5px 10px;*/
+/*    background-color: #007cba;*/
+/*    color: #ffffff;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*form#meta-table-form .bulk-actions button:hover {*/
+/*    background-color: #005a9e;*/
+/*}*/
+
+/*!* Filter Form *!*/
+/*form {*/
+/*    margin-bottom: 15px;*/
+/*    display: flex;*/
+/*    gap: 10px;*/
+/*    align-items: center;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*form label {*/
+/*    font-weight: bold;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*form select,*/
+/*form input[type="text"] {*/
+/*    padding: 5px 8px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*form button {*/
+/*    padding: 5px 10px;*/
+/*    background-color: #007cba;*/
+/*    color: #ffffff;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*form button:hover {*/
+/*    background-color: #005a9e;*/
+/*}*/
+
+/*!* Pagination Styling *!*/
+/*.tablenav-pages {*/
+/*    margin-top: 15px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.tablenav-pages a {*/
+/*    color: #007cba;*/
+/*    text-decoration: none;*/
+/*    padding: 4px 8px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 4px;*/
+/*    margin: 0 2px;*/
+/*    font-size: 13px;*/
+/*}*/
+
+/*.tablenav-pages a:hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
+
+/*.tablenav-pages .current {*/
+/*    color: #ffffff;*/
+/*    background-color: #007cba;*/
+/*    border-color: #007cba;*/
+/*    padding: 4px 8px;*/
+/*    border-radius: 4px;*/
+/*    font-size: 13px;*/
+/*}*/
+
+.meta-column.disabled {
+    background-color: #f5f5f5; /* Light grey background */
+    color: #999; /* Grey text color */
+    pointer-events: none; /* Disable interactions */
+    cursor: not-allowed; /* Show "not-allowed" cursor */
+}
+
+.completion-red {
+    color: #a14f4f;
+    font-weight: bold;
+}
+
+.completion-orange {
+    color: #ad8742;
+    font-weight: bold;
+}
+
+.completion-yellow {
+    color: #c3c357;
+    font-weight: bold;
+}
+
+.completion-green {
+    color: green;
+    font-weight: bold;
+}
+
+.meta-label {
+    margin-right: 5px;
+}
+
+.meta-value {
+    font-size: 1.2em;
+}
+
+#generate-metas-btn{
+    margin: 10px 0 10px 0;
+}
+
+/* Container styling */
+.tablenav-pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Space between links */
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #f9f9f9; /* Light gray background */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Link styling */
+.tablenav-pages a.page-numbers {
+    color: #0073aa; /* Blue color for links */
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tablenav-pages a.page-numbers:hover {
+    background-color: #0073aa;
+    color: #fff; /* White text on hover */
+    border-color: #005177; /* Slightly darker border on hover */
+}
+
+/* Previous button styling */
+.tablenav-pages a.prev.page-numbers {
+    font-weight: bold;
+}
+
+/* Current page styling */
+.tablenav-pages .current {
+    background-color: #0073aa; /* Blue background for current page */
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 3px;
+    border: 1px solid #005177;
+    font-weight: bold;
+}
+
+/* Dots styling */
+.tablenav-pages .dots {
+    color: #666; /* Neutral gray for dots */
+    padding: 6px 12px;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 600px) {
+    .tablenav-pages {
+        font-size: 12px;
+        gap: 4px;
+    }
+    .tablenav-pages a.page-numbers,
+    .tablenav-pages .current,
+    .tablenav-pages .dots {
+        padding: 4px 8px;
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7f486c11-5db5-48af-b9bb-a0e30bca6397" name="metafiller" url="http://s27.mydevil.net">
+        <fileTransfer rootFolder="/public_html" accessType="FTPS" host="s27.mydevil.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
