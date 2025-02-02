@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div class="wrap">
 <!-- Merge Meta Data Section -->
 	<h3><?php esc_html_e( 'Merge Meta Data', 'metafiller' ); ?></h3>

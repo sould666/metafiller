@@ -9,10 +9,10 @@ class Dashboard {
 	public static function renderDashboard() {
 		// Handle form submissions
 		if ( isset( $_POST['metafiller_run_check'] ) ) {
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
-			if ( ! isset( $_POST['metafiller_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['metafiller_nonce'] ), 'metafiller_action' ) ) {
-				wp_die( esc_html__( 'Unauthorized request. Nonce verification failed.', 'metafiller' ) );
-			}
+            if ( ! isset( $_POST['metafiller_nonce'] ) ||
+                ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['metafiller_nonce'] ) ), 'metafiller_action' ) ) {
+                wp_die( esc_html__( 'Unauthorized request. Nonce verification failed.', 'metafiller' ) );
+            }
 			self::performCheck();
 		}
 
@@ -66,12 +66,13 @@ class Dashboard {
 	}
 
 	public static function performCheck() {
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
-		if ( ! isset( $_POST['metafiller_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['metafiller_nonce'] ), 'metafiller_seo_check' ) ) {
-			wp_die( 'Security check failed.' );
-		}
+        if ( ! isset( $_POST['metafiller_nonce'] ) ||
+            ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['metafiller_nonce'] ) ), 'metafiller_seo_check' ) ) {
+            wp_die( 'Security check failed.' );
+        }
 
-		SeoCheck::onActivation();
+
+        SeoCheck::onActivation();
 		add_action(
 			'admin_notices',
 			function () {
@@ -80,16 +81,27 @@ class Dashboard {
 		);
 	}
 
-	private static function loadTemplate( $template, $data = array() ) {
-		$file = METAFILLER_PLUGIN_DIR . 'templates/' . $template . '.php';
+    private static function loadTemplate( $template, $data = array() ) {
+        $file = METAFILLER_PLUGIN_DIR . 'templates/' . $template . '.php';
 
-		if ( file_exists( $file ) ) {
-			extract( $data );
-			include $file;
-		} else {
-			Helpers::log( 'Template not found: ' . $template );
-		}
-	}
+        if ( file_exists( $file ) ) {
+            // Ensure data is accessible inside the template without extract()
+            self::includeTemplate($file, $data);
+        } else {
+            Helpers::log( 'Template not found: ' . $template );
+        }
+    }
+
+    private static function includeTemplate( $file, $data ) {
+        // Extracting variables manually (instead of extract)
+        if (!empty($data) && is_array($data)) {
+            foreach ($data as $key => $value) {
+                ${$key} = $value; // Assign each array key as a variable
+            }
+        }
+
+        include $file;
+    }
 
 	private static function renderTabs( $current_tab ) {
 		?>
@@ -114,9 +126,9 @@ class Dashboard {
 	}
 
 	private static function handleActions() {
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce validation is handled securely with wp_verify_nonce().
-		if ( isset( $_POST['metafiller_nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['metafiller_nonce'] ), 'metafiller_meta_actions' ) ) {
-			if ( isset( $_POST['metafiller_merge_meta'] ) ) {
+        if ( isset( $_POST['metafiller_nonce'] ) &&
+            wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['metafiller_nonce'] ) ), 'metafiller_meta_actions' ) ) {
+            if ( isset( $_POST['metafiller_merge_meta'] ) ) {
 				$target_plugin = isset( $_POST['metafiller_target_plugin'] ) ? sanitize_text_field( wp_unslash( $_POST['metafiller_target_plugin'] ) ) : '';
 				// error_log('Selected target plugin: ' . $target_plugin);
 

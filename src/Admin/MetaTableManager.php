@@ -22,11 +22,11 @@ class MetaTableManager {
 
 		// If the form is submitted, validate the nonce
 		if ( isset( $_SERVER['REQUEST_METHOD'] ) && $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce is securely handled by wp_verify_nonce().
-			if ( ! isset( $_POST['metafiller_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['metafiller_nonce'] ), 'metafiller_bulk_action' ) ) {
-				wp_die( esc_html__( 'Unauthorized request. Nonce verification failed.', 'metafiller' ) );
-			}
-		}
+            if ( ! isset( $_POST['metafiller_nonce'] ) ||
+                ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['metafiller_nonce'] ) ), 'metafiller_bulk_action' ) ) {
+                wp_die( esc_html__( 'Unauthorized request. Nonce verification failed.', 'metafiller' ) );
+            }
+        }
 
 		// Get filtered data
 		$filtered_data = self::getFilteredData( $selected_plugin, $selected_type, $search_query );

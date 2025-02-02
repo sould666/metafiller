@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Metafiller Dashboard', 'metafiller' ); ?></h2>
 	<p><?php esc_html_e( 'The Metafiller plugin helps you manage and optimize meta data for your website.', 'metafiller' ); ?></p>
