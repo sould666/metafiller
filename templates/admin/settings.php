@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div class="wrap">
 	<h2><?php esc_html_e( 'Settings', 'metafiller' ); ?></h2>
 	<form method="post" action="">
